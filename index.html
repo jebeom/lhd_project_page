@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Multi-Robot Motion Planning from Vision and Language using Heat-inspired Diffusion.">
+  <meta name="keywords" content="LHD, Multi-Robot Motion Planning, Diffusion Models, VLM, Robotics">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LHD: Multi-Robot Motion Planning from Vision and Language using Heat-inspired Diffusion</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          
+          <h1 class="title is-2 publication-title">Multi-Robot Motion Planning from Vision and Language using Heat-inspired Diffusion</h1>
+
+          <h2 class="subtitle is-4 publication-venue has-text-centered" style="color: #4a4a4a; font-weight: bold; text-align: center !important; width: 100%; display: block; margin: 0 auto;">
+            IEEE Robotics and Automation Letters (RA-L) 2026
+          </h2>
+
+          <div class="is-size-5 publication-authors" style="margin-top: 15px;">
+            <span class="author-block">
+              <a href="#">Jebeom Chae</a><sup>*</sup>,
+            </span>
+            <span class="author-block">
+              <a href="#">Junwoo Chang</a><sup>*</sup>,
+            </span>
+            <span class="author-block">
+              <a href="#">Seungho Yeom</a>,
+            </span>
+            <span class="author-block">
+              <a href="#">Yujin Kim</a>,
+            </span>
+            <span class="author-block">
+              <a href="#">Jongeun Choi</a><sup>&dagger;</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors" style="margin-top: 10px;">
+            <span class="author-block">Yonsei University</span>
+          </div>
+
+          <div class="is-size-7 publication-authors" style="margin-top: 10px;">
+            <span class="author-block"><sup>*</sup> Equal Contribution</span>
+            <span class="author-block" style="margin-left: 15px;"><sup>&dagger;</sup> Corresponding Author</span>
+          </div>
+
+          <div class="column has-text-centered" style="margin-top: 20px;">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="javascript:location.reload();" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-ieee"></i>
+                  </span>
+                  <span>IEEE (TBD)</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2512.13090" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="#" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Diffusion models have recently emerged as powerful tools for robot motion planning by capturing the multi-modal distribution of feasible trajectories. However, their extension to multi-robot settings with flexible, language-conditioned task specifications remains limited. Furthermore, current diffusion-based approaches incur high computational cost during inference and struggle with generalization because they require explicit construction of environment representations and lack mechanisms for reasoning about geometric reachability.
+          </p>
+          <p>
+            To address these limitations, we present <strong>Language-conditioned Heat-inspired Diffusion (LHD)</strong>, an end-to-end vision-based framework that generates language-conditioned, collision-free trajectories. LHD integrates semantic priors from CLIP, a vision-language model (VLM), with a collision-avoiding diffusion kernel serving as a physical inductive bias that enables the planner to interpret language commands strictly within the reachable workspace. This naturally handles out-of-distribution (OOD) scenarios by guiding robots toward accessible alternatives that match the semantic intent, while eliminating the need for explicit obstacle information at inference time.
+          </p>
+          <p>
+            Extensive evaluations on diverse real-world-inspired maps, along with real-robot experiments, show that LHD consistently outperforms prior diffusion-based planners in success rate, while reducing planning latency.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Framework Overview</h2>
+        
+        <img src="./static/images/figure_1.png" alt="LHD Framework Overview" style="width: 100%; margin-top: 20px; margin-bottom: 20px;">
+        
+        <div class="content has-text-justified">
+          <p>
+            The model takes a raw RGB image and diffusion timestep t as inputs, conditioned on language instructions. A pre-trained CLIP text encoder extracts fixed text embeddings, which are injected into the U-Net via cross-attention. The network outputs individual gradient fields, guiding each robot toward its respective goal while incorporating a heat-inspired physical inductive bias that inherently encodes reachability. During inference, Langevin dynamics iteratively sample the next state by aggregating these learned scores with inter-robot collision avoidance gradients, enabling safe multi-robot coordination.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Evaluations on Real-World-Inspired Maps</h2>
+        
+        <img src="./static/images/figure_2.png" alt="Results on Drop-Region, Conveyor, Room, and Shelf maps" style="width: 100%; margin-top: 20px; margin-bottom: 20px;">
+
+        <div class="content has-text-justified">
+          <p>
+            We evaluated LHD across four challenging environments: Drop-Region, Conveyor, Room, and Shelf maps, scaling from 3 up to 30 robots. The figure illustrates the generated trajectories for 6-robot scenarios across each map. Colored dots indicate the start positions of the robots, and the corresponding colored lines represent their trajectories to the goals.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Generalization to Unseen Layouts (OOD)</h2>
+
+        <img src="./static/images/figure_3.png" alt="Out-of-Distribution Generalization" style="width: 100%; margin-top: 20px; margin-bottom: 20px;">
+
+        <div class="content has-text-justified">
+          <p>
+            A key advantage of LHD is its ability to generalize to out-of-distribution (OOD) scenarios, such as unseen obstacle layouts, without any additional fine-tuning. The figure provides a qualitative visualization of this generalization capability. While robots naturally navigate to their nearest targets in the unobstructed case (left), they autonomously redirect to the accessible target that matches the semantic instruction when a goal becomes unreachable (right).
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Experimental Video</h2>
+        <div class="content has-text-justified">
+          <div style="position: relative; width: 100%; height: 0; padding-bottom: 56.25%; overflow: hidden; margin-top: 20px; border-radius: 8px;">
+            <iframe 
+              src="https://www.youtube.com/embed/hbqUj7OcXtw?rel=0" 
+              style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              allowfullscreen>
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>TBD</code></pre>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content has-text-centered">
+          <p>
+            This website is based on the <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> template, licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
