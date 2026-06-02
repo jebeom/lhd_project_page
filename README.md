@@ -1,4 +1,4 @@
-# Multi-Robot Motion Planning from Vision and Language using Heat-inspired Diffusion
+# Multi-Robot Motion Planning from Vision and Language using Heat-Inspired Diffusion
 
 This repository hosts the project page for our paper.  
 
